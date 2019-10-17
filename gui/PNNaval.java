@@ -33,21 +33,30 @@ public class PNNaval extends JPanel implements MouseListener {
 			x=xIni;
 			for(int j=0;j<15;j++) {
 				tab1[i][j]=new Celula(x,y);
-				tab2[i][j]=new Celula(x,y);
 				x+=larg+espLinha;
 			}
 			y+=alt+espLinha;
 		}
-		
+
+		y = yIni;
+		for(int i=0;i<15;i++) {
+			x = (xIni+700);
+			for (int j = 0; j < 15; j++) {
+				tab2[i][j] = new Celula(x, y);
+				x += larg + espLinha;
+			}
+			y += alt + espLinha;
+		}
+
 		addMouseListener(this);
 
 		for(int i=0; i < 16; i++){
 			lines1[i] = new Line2D.Double(xIni + (i*(larg+espLinha)), yIni , xIni + (i*(larg+espLinha)), yIni+(15*(alt+espLinha)));
-			lines2[i] = new Line2D.Double(xIni+700 + (i*(larg+espLinha)), yIni , xIni + 700 + (i*(larg+espLinha)), yIni+(15*(alt+espLinha)));
+			lines2[i] = new Line2D.Double(xIni+700 + (i*(larg+espLinha)), yIni , xIni+700 + (i*(larg+espLinha)), yIni+(15*(alt+espLinha)));
 		}
 		for(int i=0; i < 16; i++) {
 			lines1[i+16]= new Line2D.Double(xIni,yIni +(i*(alt+espLinha)), xIni+(15*(larg+espLinha)), yIni + (i*(alt+espLinha)));
-			lines2[i+16]= new Line2D.Double(xIni + 700,yIni +(i*(alt+espLinha)), xIni+700+(15*(larg+espLinha)), yIni + (i*(alt+espLinha)));
+			lines2[i+16]= new Line2D.Double(xIni+700,yIni +(i*(alt+espLinha)), xIni+700 + (15*(larg+espLinha)), yIni + (i*(alt+espLinha)));
 		}
 
 	}
@@ -56,9 +65,9 @@ public class PNNaval extends JPanel implements MouseListener {
 		super.paintComponent(g);
 		Graphics2D g2d=(Graphics2D) g;
 		Rectangle2D rt;
-		int mat[][]=ctrl.getMatriz(1);
-		int mat2[][]=ctrl.getMatriz(2);
-		int vez=ctrl.getVez();
+		int mat[][] = ctrl.getMatriz(1);
+		int mat2[][] = ctrl.getMatriz(2);
+		int vez = ctrl.getVez();
 		jogadores = ctrl.getJogadores();
 		
 		g2d.setStroke(new BasicStroke(2.0f,
@@ -74,6 +83,7 @@ public class PNNaval extends JPanel implements MouseListener {
 		}
 
 		g2d.drawString(jogadores[0], (int)(xIni+(7.5*(larg+espLinha))), (int)(yIni/2));
+		g2d.drawString(jogadores[1], (int)((xIni+700)+(7.5*(larg+espLinha))), (int)(yIni/2));
 
 		String letras = "ABCDEFGHIJKLMNO";
 
@@ -81,7 +91,7 @@ public class PNNaval extends JPanel implements MouseListener {
 			g2d.drawString(String.valueOf(letras.charAt(i)), (int)(xIni-15), (int)(yIni + (i*(alt+espLinha)+alt*0.7)));
 			g2d.drawString(String.valueOf(i),(int)(xIni +(i*(larg+espLinha))+(larg*0.35)),(int)(yIni-7));
 			g2d.drawString(String.valueOf(letras.charAt(i)), (int)(xIni+685), (int)(yIni + (i*(alt+espLinha)+alt*0.7)));
-			g2d.drawString(String.valueOf(i),(int)(xIni + 700 +(i*(larg+espLinha))+(larg*0.35)),(int)(yIni-7));
+			g2d.drawString(String.valueOf(i),(int)((xIni + 700) + (i*(larg+espLinha))+(larg*0.35)),(int)(yIni-7));
 		}
 
 		for(int i=0; i < 15; i++) {
@@ -112,11 +122,9 @@ public class PNNaval extends JPanel implements MouseListener {
 			ctrl.setValor((int)(x/(larg+espLinha)),(int)(y/(alt+espLinha)));
 			repaint();
 		}
-		if ((x > xIni + 700 && x < xIni + 700 + 15*(larg+espLinha)) && (y > 0 && y < 15*(alt+espLinha))) {
-			System.out.println(xIni);
+		if ((x > (xIni + 700) && x < (xIni + 700) + 15*(larg+espLinha)) && (y > 0 && y < 15*(alt+espLinha))) {
 			x-=(xIni+700);
-			System.out.println(x);
-			ctrl.setValor((int)(x/(larg+espLinha)),(int)(y/(alt+espLinha)));
+			ctrl.setValor2((int)(x/(larg+espLinha)),(int)(y/(alt+espLinha)));
 			repaint();
 		}
 	}

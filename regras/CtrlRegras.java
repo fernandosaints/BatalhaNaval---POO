@@ -35,12 +35,19 @@ public class CtrlRegras {
 			this.tabuleiro[j][i] = vez;
 			return;
 		}
-		else if (this.tabuleiro2[j][i] == 0) {
+
+		getVez();
+
+	}
+
+	public void setValor2(int i, int j){
+		if (this.tabuleiro2[j][i] == 0) {
 			this.tabuleiro2[j][i] = vez;
 			return;
 		}
 
 		getVez();
+
 	}
 	
 	public int getVez() {

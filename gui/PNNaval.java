@@ -3,7 +3,10 @@ package gui;
 import regras.CtrlRegras;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicOptionPaneUI;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
@@ -20,11 +23,13 @@ public class PNNaval extends JPanel implements MouseListener {
 	CtrlRegras ctrl;
 	String[] jogadores;
 
-	JTextField name1 = new JTextField(20);
-	JTextField name2 = new JTextField(20);
+	JTextField nome1 = new JTextField(20);
+	JTextField nome2 = new JTextField(20);
 
-	JButton button = new JButton("Iniciar");
-	
+	JButton novo_jogo = new JButton("Novo Jogo");
+
+	JButton iniciar = new JButton("Iniciar");
+
 	public PNNaval(CtrlRegras c) {
 		double x=xIni,y=yIni;
 		ctrl=c;
@@ -69,46 +74,67 @@ public class PNNaval extends JPanel implements MouseListener {
 		int mat2[][] = ctrl.getMatriz(2);
 		int vez = ctrl.getVez();
 		jogadores = ctrl.getJogadores();
-		
-		g2d.setStroke(new BasicStroke(2.0f,
-                BasicStroke.CAP_BUTT,
-                BasicStroke.JOIN_MITER,
-                10.0f));
-		
-		g2d.setPaint(Color.black);
-		
-		for(int i=0;i<32;i++) {
-			g2d.draw(lines1[i]);
-			g2d.draw(lines2[i]);
+
+		if(jogadores[0].compareTo("") == 0 || jogadores[1].compareTo("") == 0){
+			g2d.drawString("Jogador 1:", 500, 350);
+			g2d.drawString("Jogador 2:", 500, 400);
+			nome1.setBounds(550,360,100,25);
+			nome1.setFont(nome1.getFont().deriveFont(15f));
+
+			nome2.setBounds(550,410,100,25);
+			nome2.setFont(nome1.getFont().deriveFont(15f));
+
+			iniciar.addActionListener(new StartButton());
+			iniciar.setBounds(525,450,100,40);
+			add(nome1);
+			add(nome2);
+			add(iniciar);
+
 		}
+		else{
+			remove(iniciar);
+			remove(nome1);
+			remove(nome2);
 
-		g2d.drawString(jogadores[0], (int)(xIni+(7.5*(larg+espLinha))), (int)(yIni/2));
-		g2d.drawString(jogadores[1], (int)((xIni+700)+(7.5*(larg+espLinha))), (int)(yIni/2));
+			g2d.setStroke(new BasicStroke(2.0f,
+					BasicStroke.CAP_BUTT,
+					BasicStroke.JOIN_MITER,
+					10.0f));
 
-		String letras = "ABCDEFGHIJKLMNO";
+			g2d.setPaint(Color.black);
 
-		for(int i=0; i < 15 ; i++) {
-			g2d.drawString(String.valueOf(letras.charAt(i)), (int)(xIni-15), (int)(yIni + (i*(alt+espLinha)+alt*0.7)));
-			g2d.drawString(String.valueOf(i),(int)(xIni +(i*(larg+espLinha))+(larg*0.35)),(int)(yIni-7));
-			g2d.drawString(String.valueOf(letras.charAt(i)), (int)(xIni+685), (int)(yIni + (i*(alt+espLinha)+alt*0.7)));
-			g2d.drawString(String.valueOf(i),(int)((xIni + 700) + (i*(larg+espLinha))+(larg*0.35)),(int)(yIni-7));
-		}
+			for(int i=0;i<32;i++) {
+				g2d.draw(lines1[i]);
+				g2d.draw(lines2[i]);
+			}
 
-		for(int i=0; i < 15; i++) {
-			for(int j=0; j < 15; j++) {
-				if(mat[i][j]!=0) {
-					g2d.setPaint(Color.green);
-					rt=new Rectangle2D.Double(tab1[i][j].x+(espLinha/2),tab1[i][j].y+(espLinha/2),larg+1,alt+1);
-					g2d.fill(rt);
-				}
-				if(mat2[i][j]!=0){
-					g2d.setPaint(Color.red);
-					rt=new Rectangle2D.Double(tab2[i][j].x+(espLinha/2),tab2[i][j].y+(espLinha/2),larg+1,alt+1);
-					g2d.fill(rt);
+			g2d.drawString(jogadores[0], (int)(xIni+(7.5*(larg+espLinha))), 510);
+			g2d.drawString(jogadores[1], (int)((xIni+700)+(7.5*(larg+espLinha))), 510);
+
+			String letras = "ABCDEFGHIJKLMNO";
+
+			for(int i=0; i < 15 ; i++) {
+				g2d.drawString(String.valueOf(letras.charAt(i)), (int)(xIni-15), (int)(yIni + (i*(alt+espLinha)+alt*0.7)));
+				g2d.drawString(String.valueOf(i),(int)(xIni +(i*(larg+espLinha))+(larg*0.35)),(int)(yIni-7));
+				g2d.drawString(String.valueOf(letras.charAt(i)), (int)(xIni+685), (int)(yIni + (i*(alt+espLinha)+alt*0.7)));
+				g2d.drawString(String.valueOf(i),(int)((xIni + 700) + (i*(larg+espLinha))+(larg*0.35)),(int)(yIni-7));
+			}
+
+			for(int i=0; i < 15; i++) {
+				for(int j=0; j < 15; j++) {
+					if(mat[i][j]!=0) {
+						g2d.setPaint(Color.green);
+						rt=new Rectangle2D.Double(tab1[i][j].x+(espLinha/2),tab1[i][j].y+(espLinha/2),larg+1,alt+1);
+						g2d.fill(rt);
+					}
+					if(mat2[i][j]!=0){
+						g2d.setPaint(Color.red);
+						rt=new Rectangle2D.Double(tab2[i][j].x+(espLinha/2),tab2[i][j].y+(espLinha/2),larg+1,alt+1);
+						g2d.fill(rt);
+					}
 				}
 			}
 		}
-
 
 	}
 	
@@ -133,4 +159,12 @@ public class PNNaval extends JPanel implements MouseListener {
 	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
+
+	class StartButton implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			ctrl.setJogadores(nome1.getText(), nome2.getText());
+			jogadores = ctrl.getJogadores();
+			repaint();
+		}
+	}
 }

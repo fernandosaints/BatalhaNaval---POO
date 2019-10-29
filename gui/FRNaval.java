@@ -6,19 +6,26 @@ import javax.swing.*;
 import java.awt.*;
 
 public class FRNaval extends JFrame {
-	final int LARG_DEFAULT=1280;
-	final int ALT_DEFAULT=720;
 
 	public FRNaval(CtrlRegras c) {
 		Toolkit tk=Toolkit.getDefaultToolkit();
 		Dimension screenSize=tk.getScreenSize();
 		int sl=screenSize.width;
 		int sa=screenSize.height;
-		int x=sl/2-LARG_DEFAULT/2;
-		int y=sa/2-ALT_DEFAULT/2;
-		setBounds(x,y,LARG_DEFAULT,ALT_DEFAULT);
+		System.out.println(sl);
+		System.out.println(sa);
+		int x=sl/2 - sl/8;
+		int y=sa/2 - sa/8;
+		
+		setBounds(x,y,sl/4,sa/4);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		getContentPane().add(new PNNaval(c));
+		Box caixa = new Box(BoxLayout.Y_AXIS);
+
+		caixa.add(Box.createVerticalGlue());
+		caixa.add(new PNInicio(c,this));
+		caixa.add(Box.createVerticalGlue());
+
+		getContentPane().add(caixa);
 		setTitle("Batalha Naval");
 	}
 	

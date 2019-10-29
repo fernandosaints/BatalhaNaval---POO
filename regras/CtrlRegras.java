@@ -37,7 +37,6 @@ public class CtrlRegras {
 		}
 
 		getVez();
-
 	}
 
 	public void setValor2(int i, int j){
@@ -47,7 +46,6 @@ public class CtrlRegras {
 		}
 
 		getVez();
-
 	}
 	
 	public int getVez() {

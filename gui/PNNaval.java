@@ -17,7 +17,7 @@ import java.awt.geom.Rectangle2D;
 
 public class PNNaval extends JPanel implements MouseListener, Observer {
 	double xIni=30.0,yIni=90.0,larg=25.0,alt=25.0,espLinha=5.0;
-	int iClick,jClick;
+
 	Celula tab1[][]=new Celula[15][15];
 	Celula tab2[][]=new Celula[15][15];
 
@@ -29,7 +29,6 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 	JTextField nome1 = new JTextField(20);
 	JTextField nome2 = new JTextField(20);
 
-	JButton novo_jogo = new JButton("Novo Jogo");
 	JButton iniciar = new JButton("Iniciar");
 	JButton pronto = new JButton("Tabuleiro Pronto!");
 
@@ -73,6 +72,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		super.paintComponent(g);
 		Graphics2D g2d=(Graphics2D) g;
 		Rectangle2D rt;
+		Armas armas = new Armas();
 		int mat[][] = ctrl.getMatriz(1);
 		int mat2[][] = ctrl.getMatriz(2);
 		int vez = ctrl.getVez();
@@ -107,51 +107,25 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 			int posX = 70;
 			int posY = 90;
 			for(int j=0;j<5;j++){
-				for(int i=0;i<3;i++){
-					g2d.setPaint(Color.green);
-					if(i == 2)
-						rt=new Rectangle2D.Double(posX+count,posY+count,larg+1,alt+1);
-					else
-						rt=new Rectangle2D.Double(posX-count,posY+count,larg+1,alt+1);
-					count=25;
-					g2d.fill(rt);
-				}
+				armas.trio(g,posX,posY,larg,alt);
 				posX+=90;
-				count=0;
 			}
 
 			posX=45;
 			posY=190;
-			for(int j=0;j<4;j++){
-				g2d.setPaint(Color.blue);
-				rt=new Rectangle2D.Double(posX,posY,larg+1,alt+1);
-				g2d.fill(rt);
-				posX+=50;
-			}
+			armas.solo(g,posX,posY,larg,alt);
 
 			posX=45;
 			posY=265;
-			for(int j=0;j<3;j++){
-				g2d.setPaint(Color.yellow);
-				rt=new Rectangle2D.Double(posX,posY,2*larg+1,alt+1);
-				g2d.fill(rt);
-				posX+=100;
-			}
+			armas.duo(g,posX,posY,larg,alt);
 
 			posX=45;
 			posY=340;
-			for(int j=0;j<2;j++){
-				g2d.setPaint(Color.orange);
-				rt=new Rectangle2D.Double(posX,posY,4*larg+1,alt+1);
-				g2d.fill(rt);
-				posX+=200;
-			}
+			armas.squad(g,posX,posY,larg,alt);
 
 			posX=45;
 			posY=415;
-			g2d.setPaint(Color.magenta);
-			rt=new Rectangle2D.Double(posX,posY,5*larg+1,alt+1);
-			g2d.fill(rt);
+			armas.penta(g,posX,posY,larg,alt);
 
 
 			g2d.setStroke(new BasicStroke(2.0f,
@@ -196,7 +170,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		}
 
 	}
-	
+
 	public void mouseClicked(MouseEvent e) {
 		Rectangle2D rt;
 		int x = e.getX(), y = e.getY();

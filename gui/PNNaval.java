@@ -27,7 +27,6 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 	JTextField nome1 = new JTextField(20);
 	JTextField nome2 = new JTextField(20);
 
-	JButton iniciar = new JButton("Iniciar");
 	JButton pronto = new JButton("Tabuleiro Pronto!");
 
 	public PNNaval(CtrlRegras c) {
@@ -86,24 +85,27 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		Graphics2D g2d=(Graphics2D) g;
 		Rectangle2D rt;
 		Armas armas = new Armas();
-		int mat[][] = ctrl.getMatriz(1);
+		int posX, posY;
+		int mat1[][] = ctrl.getMatriz(1);
 		int mat2[][] = ctrl.getMatriz(2);
 		int verifica = ctrl.getVerifica();
 		jogadores = ctrl.getJogadores();
 
-		remove(iniciar);
-		remove(nome1);
-		remove(nome2);
+
 		pronto.addActionListener(new ReadyButton());
 		pronto.setBounds(500,620,200,40);
 		pronto.setEnabled(false);
 		add(pronto);
 
-		int posX = 70;
-		int posY = 90;
 
-		armas.criaArmas();
+		for(Armas e : armas.criaArmas()){
+			System.out.println("X = " + e.getX());
+			System.out.println("Y = " + e.getY());
+		}
 
+
+		posX = 70;
+		posY = 90;
 		for(int j=0;j<5;j++){
 			armas.hidro(g,posX,posY,larg,alt,Color.green);
 			posX+=90;
@@ -150,7 +152,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 				g2d.drawString(String.valueOf(i),(int)((xIni + 700) + (i*(larg+espLinha))+(larg*0.35)),(int)(yIni-7));
 		}
 
-		if(verifica == 1)
+		if(verifica == 0)
 			armas.hidro(g,70,90,larg,alt,Color.green);
 		else
 			armas.hidro(g,70,90,larg,alt,Color.gray);
@@ -158,7 +160,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 
 		for(int i=0; i < 15; i++) {
 			for(int j=0; j < 15; j++) {
-				/*if(mat[i][j]!=0) {
+				/*if(mat1[i][j]!=0) {
 					g2d.setPaint(Color.green);
 					rt=new Rectangle2D.Double(tab1[i][j].x+(espLinha/2),tab1[i][j].y+(espLinha/2),larg+1,alt+1);
 					g2d.fill(rt);

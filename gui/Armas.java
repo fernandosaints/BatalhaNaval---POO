@@ -14,9 +14,7 @@ public class Armas {
         this.quantidade=quantidade;
     }
 
-    Armas(){
-
-    }
+    Armas(){}
 
     public void hidro(Graphics g, int posX, int posY, double larg, double alt, Paint cor){
         Graphics2D g2d=(Graphics2D) g;
@@ -80,24 +78,24 @@ public class Armas {
         g2d.fill(rt);
     }
 
-    public Object[] criaArmas(){
-        Object[] pecas = new Object[10];
+    public Armas[] criaArmas(){
+        Armas[] pecas = new Armas[10];
         int i, x = 45, y = 190;
         for(i=0;i<4;i++){
             pecas[i] = new Armas(x,y,1);
-            x+=25*quantidade+25;
+            x+=25*pecas[i].getQuantidade()+25;
         }
         x = 45;
         y = 265;
         for(i=4;i<7;i++){
             pecas[i] = new Armas(x,y,2);
-            x+=25*quantidade+25;
+            x+=25*pecas[i].getQuantidade()+25;
         }
         x=45;
         y=340;
         for(i=7;i<9;i++){
             pecas[i] = new Armas(x,y,4);
-            x+=25*quantidade+25;
+            x+=25*pecas[i].getQuantidade()+25;
         }
         x=45;
         y=415;
@@ -106,5 +104,15 @@ public class Armas {
         return pecas;
     }
 
+    public double getX() {
+        return x;
+    }
 
+    public double getY() {
+        return y;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
 }

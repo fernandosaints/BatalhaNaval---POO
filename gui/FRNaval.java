@@ -12,8 +12,6 @@ public class FRNaval extends JFrame {
 		Dimension screenSize=tk.getScreenSize();
 		int sl=screenSize.width;
 		int sa=screenSize.height;
-		System.out.println(sl);
-		System.out.println(sa);
 		int x=sl/2 - sl/8;
 		int y=sa/2 - sa/8;
 		

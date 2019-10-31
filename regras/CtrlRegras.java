@@ -1,38 +1,47 @@
 package regras;
 
-public class CtrlRegras {
-	// 0: indica uma casa n�o preenchida
-	// -1: indica uma casa preenchida com um ret�ngulo verde
-	// 5:  indica uma casa preenchida com um ret�ngulo vermelho
-	
-	int tabuleiro [][]= {{0,0,0},{0,0,0},{0,0,0}};
-	int tabuleiro2 [][]= {{0,0,0},{0,0,0},{0,0,0}};
+import java.util.ArrayList;
+import java.util.List;
+
+public class CtrlRegras implements Observable{
+
+	int tabuleiro1[][];
+	int tabuleiro2 [][];
 	int vez=5;
+	int verifica = 0;
+    private static CtrlRegras control = null; //SINGLETON
 	String jogador1,jogador2;
+    List<Observer> lob=new ArrayList<Observer>();
 	
 	public CtrlRegras() {
-		this.tabuleiro = new int[15][15];
-		this.tabuleiro2 = new int[15][15];
-		for(int i=0; i < 15; i++){
-			for(int j=0; j < 15; j++){
-				this.tabuleiro[i][j] = 0;
-				this.tabuleiro2[i][j] = 0;
-			}
-		}
-		this.jogador1 = "";
-		this.jogador2 = "";
-	}
+        this.tabuleiro1 = new int[15][15];
+        this.tabuleiro2 = new int[15][15];
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+                this.tabuleiro1[i][j] = 0;
+                this.tabuleiro2[i][j] = 0;
+            }
+        }
+        this.jogador1 = "";
+        this.jogador2 = "";
+    }
+
+    public CtrlRegras get(){
+	    if(control == null)
+	        control = new CtrlRegras();
+	    return control;
+    }
 
 	public int[][] getMatriz(int n) {
 		if(n==1) {
-			return tabuleiro;
+			return tabuleiro1;
 		}
 		return tabuleiro2;
 	}
 	
 	public void setValor(int i, int j){
-		if (this.tabuleiro[j][i] == 0) {
-			this.tabuleiro[j][i] = vez;
+		if (this.tabuleiro1[j][i] == 0) {
+			this.tabuleiro1[j][i] = vez;
 			return;
 		}
 
@@ -49,12 +58,10 @@ public class CtrlRegras {
 	}
 	
 	public int getVez() {
-		if(vez == 5) {
+		if(vez == 5)
 			vez = -1;
-		}
-		else {
+		else
 			vez = 5;
-		}
 		return vez;
 	}
 
@@ -69,4 +76,20 @@ public class CtrlRegras {
 		this.jogador1 = jogador1;
 		this.jogador2 = jogador2;
 	}
+
+	public int getVerifica() {
+		if(verifica == 0)
+			verifica = 1;
+		else
+			verifica = 0;
+		return verifica;
+	}
+
+    public void addObserver(Observer o) {
+	    lob.add(o);
+    }
+
+    public void removeObserver(Observer o) {
+	    lob.remove(o);
+    }
 }

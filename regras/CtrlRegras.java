@@ -39,10 +39,18 @@ public class CtrlRegras implements Observable{
 		return tabuleiro2;
 	}
 	
-	public void setValor(int i, int j){
-		if (this.tabuleiro1[j][i] == 0) {
-			this.tabuleiro1[j][i] = vez;
-			return;
+	public void setValor(int i, int j, short numTab){
+		if(numTab == 1) {
+			if (this.tabuleiro1[j][i] == 0) {
+				this.tabuleiro1[j][i] = vez;
+				return;
+			}
+		}
+		else {
+			if (this.tabuleiro2[j][i] == 0) {
+				this.tabuleiro2[j][i] = vez;
+				return;
+			}
 		}
 
 		getVez();
@@ -56,6 +64,8 @@ public class CtrlRegras implements Observable{
 
 		getVez();
 	}
+
+
 	
 	public int getVez() {
 		if(vez == 5)

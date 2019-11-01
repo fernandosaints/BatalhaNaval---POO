@@ -19,6 +19,8 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 	Celula tab1[][]=new Celula[15][15];
 	Celula tab2[][]=new Celula[15][15];
 
+	Armas armas = new Armas();
+
 	Line2D.Double lines1[]=new Line2D.Double[32];
 	Line2D.Double lines2[]=new Line2D.Double[32];
 	CtrlRegras ctrl;
@@ -74,7 +76,8 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		panel.setBackground(Color.black);
 		panel.setSize(100,100);
 		this.add(panel);
-		Movement mv = new Movement(this.getComponents());
+		//this.armas
+		//Movement mv = new Movement(this.getComponents());
 		/*add(this);
 		setVisible(true);*/
 
@@ -84,7 +87,6 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		super.paintComponent(g);
 		Graphics2D g2d=(Graphics2D) g;
 		Rectangle2D rt;
-		Armas armas = new Armas();
 		int posX, posY;
 		int mat1[][] = ctrl.getMatriz(1);
 		int mat2[][] = ctrl.getMatriz(2);
@@ -157,6 +159,12 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		else
 			armas.hidro(g,70,90,larg,alt,Color.gray);
 
+		/*if(peca.getQuantidade == 3){
+			armas.submarino();
+		}
+		else if(peca.getQuantidade == 1)
+			...*/
+
 
 		for(int i=0; i < 15; i++) {
 			for(int j=0; j < 15; j++) {
@@ -184,6 +192,14 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		if((x > 70 && x < 95) && (y > 90 && y < 115)){
 			System.out.println("primeira arma de 3");
 			repaint();
+		}
+
+		for(Armas peca : armas.criaArmas()){
+			if((x > peca.getX() && x < 25*peca.getQuantidade()+peca.getX()) && (y > peca.getY() && y < peca.getY() + alt)){
+				System.out.println("PEGUEI");
+				//repaint();
+			}
+
 		}
 
 		y-=yIni;

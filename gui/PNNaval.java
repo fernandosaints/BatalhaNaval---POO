@@ -13,6 +13,7 @@ import java.awt.geom.Rectangle2D;
 public class PNNaval extends JPanel implements MouseListener, Observer {
     private int X,Y;
 	double xIni=30.0,yIni=90.0,larg=25.0,alt=25.0,espLinha=5.0;
+	int xAtual, yAtual, xPeca, yPeca;
 
 	Color corDefault = UIManager.getColor ("Panel.background");
 
@@ -100,12 +101,6 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		add(pronto);
 
 
-		for(Armas e : armas.criaArmas()){
-			System.out.println("X = " + e.getX());
-			System.out.println("Y = " + e.getY());
-		}
-
-
 		posX = 70;
 		posY = 90;
 		for(int j=0;j<5;j++){
@@ -115,15 +110,23 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 
 		posX=45;
 		posY=190;
-		armas.submarino(g,posX,posY,larg,alt,Color.blue);
-
+		for(int j=0;j<4;j++) {
+			armas.submarino(g, posX, posY, larg, alt, Color.blue);
+			posX+=50;
+		}
 		posX=45;
 		posY=265;
-		armas.destroyer(g,posX,posY,larg,alt,Color.yellow);
+		for(int j=0;j<3;j++){
+			armas.destroyer(g,posX,posY,larg,alt,Color.yellow);
+			posX+=75;
+		}
 
 		posX=45;
 		posY=340;
-		armas.cruzador(g,posX,posY,larg,alt,Color.orange);
+		for(int j=0;j<2;j++){
+			armas.cruzador(g,posX,posY,larg,alt,Color.orange);
+			posX+=125;
+		}
 
 		posX=45;
 		posY=415;
@@ -154,10 +157,30 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 				g2d.drawString(String.valueOf(i),(int)((xIni + 700) + (i*(larg+espLinha))+(larg*0.35)),(int)(yIni-7));
 		}
 
-		if(verifica == 0)
-			armas.hidro(g,70,90,larg,alt,Color.green);
-		else
-			armas.hidro(g,70,90,larg,alt,Color.gray);
+		if(verifica == 1){
+			if(yAtual > 90 && yAtual < 140)
+
+			//armas.hidro(g,70,90,larg,alt,Color.green);
+			if(yAtual > 190 && yAtual < 215)
+				armas.submarino(g,xPeca,yPeca,larg,alt,Color.blue);
+			if(yAtual > 265 && yAtual < 290)
+				armas.destroyer(g,xPeca,yPeca,larg,alt,Color.yellow);
+			if(yAtual > 340 && yAtual < 365)
+				armas.cruzador(g,xPeca,yPeca,larg,alt,Color.orange);
+			if(yAtual > 415 && yAtual < 440)
+				armas.couracado(g,xPeca,yPeca,larg,alt,Color.magenta);
+		}
+		else {
+			if(yAtual > 190 && yAtual < 215)
+				armas.submarino(g,xPeca,yPeca,larg,alt,Color.gray);
+			if(yAtual > 265 && yAtual < 290)
+				armas.destroyer(g,xPeca,yPeca,larg,alt,Color.gray);
+			if(yAtual > 340 && yAtual < 365)
+				armas.cruzador(g,xPeca,yPeca,larg,alt,Color.gray);
+			if(yAtual > 415 && yAtual < 440)
+				armas.couracado(g,xPeca,yPeca,larg,alt,Color.gray);
+
+		}
 
 		/*if(peca.getQuantidade == 3){
 			armas.submarino();
@@ -177,7 +200,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 					g2d.setPaint(Color.red);
 					rt=new Rectangle2D.Double(tab2[i][j].x+(espLinha/2),tab2[i][j].y+(espLinha/2),larg+1,alt+1);
 					g2d.fill(rt);
-					armas.hidro(g,70,90,larg,alt,corDefault);
+					//armas.hidro(g,70,90,larg,alt,corDefault);
 				}
 			}
 		}
@@ -189,15 +212,14 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		System.out.println(x);
 		System.out.println(y);
 
-		if((x > 70 && x < 95) && (y > 90 && y < 115)){
-			System.out.println("primeira arma de 3");
-			repaint();
-		}
-
 		for(Armas peca : armas.criaArmas()){
 			if((x > peca.getX() && x < 25*peca.getQuantidade()+peca.getX()) && (y > peca.getY() && y < peca.getY() + alt)){
 				System.out.println("PEGUEI");
-				//repaint();
+				xAtual = x;
+				yAtual = y;
+				xPeca = peca.getX();
+				yPeca = peca.getY();
+				repaint();
 			}
 
 		}

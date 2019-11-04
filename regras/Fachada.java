@@ -15,7 +15,7 @@ public class Fachada {
         return f;
     }
 
-    public int[][] getMatriz(short numTab) {
+    public int[][] getMatriz(int numTab) {
         return ctrl.getMatriz(numTab);
     }
 
@@ -23,13 +23,20 @@ public class Fachada {
         return ctrl.vez;
     }
 
+    public int getVerifica(){ return ctrl.getVerifica();}
+
     public void register(Observer o) {
         ctrl.addObserver(o);
     }
 
-    public void setValor(int x,int y,short numTab) {
+    public void setValor(int x, int y, int numTab) {
         ctrl.setValor(x, y, numTab);
     }
+    public void setValor2(int i, int j){
+        ctrl.setValor2(i,j);
+    }
+
+    public String[] getJogadores(){ return ctrl.getJogadores();}
 
     public void setJogadores(String jog1, String jog2) {
         ctrl.setJogadores(jog1, jog2);

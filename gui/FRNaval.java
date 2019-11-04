@@ -1,13 +1,14 @@
 package gui;
 
 import regras.CtrlRegras;
+import regras.Fachada;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class FRNaval extends JFrame {
 
-	public FRNaval(CtrlRegras c) {
+	public FRNaval(Fachada f) {
 		Toolkit tk=Toolkit.getDefaultToolkit();
 		Dimension screenSize=tk.getScreenSize();
 		int sl=screenSize.width;
@@ -20,7 +21,7 @@ public class FRNaval extends JFrame {
 		Box caixa = new Box(BoxLayout.Y_AXIS);
 
 		caixa.add(Box.createVerticalGlue());
-		caixa.add(new PNInicio(c,this));
+		caixa.add(new PNInicio(f,this));
 		caixa.add(Box.createVerticalGlue());
 
 		getContentPane().add(caixa);
@@ -28,6 +29,6 @@ public class FRNaval extends JFrame {
 	}
 	
 	public static void main(String args[]) {
-		(new FRNaval(new CtrlRegras())).setVisible(true);
+		(new FRNaval(Fachada.getFachada())).setVisible(true);
 	}
 }

@@ -1,6 +1,7 @@
 package gui;
 
 import regras.CtrlRegras;
+import regras.Fachada;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,7 @@ public class PNInicio extends JPanel implements ActionListener {
     int y=sa/2-ALT_DEFAULT/2;
 
 
-    public PNInicio(CtrlRegras ctrl, FRNaval frameInicio){
+    public PNInicio(Fachada f, FRNaval frameInicio){
         JButton novo_jogo = new JButton("Novo Jogo");
         JButton carregar_jogo = new JButton("Carregar Jogo");
         this.add(novo_jogo);
@@ -40,9 +41,9 @@ public class PNInicio extends JPanel implements ActionListener {
                 int resultado = JOptionPane.showConfirmDialog(null,painelInicio,"Digite os nomes dos jogadores:",JOptionPane.OK_OPTION);
 
                 if(resultado == JOptionPane.OK_OPTION){
-                    ctrl.setJogadores(jogador1.getText(), jogador2.getText());
+                    f.setJogadores(jogador1.getText(), jogador2.getText());
                     frameInicio.getContentPane().removeAll();
-                    frameInicio.getContentPane().add(new PNNaval(ctrl));
+                    frameInicio.getContentPane().add(new PNNaval(f));
                     frameInicio.setBounds(x,y,LARG_DEFAULT,ALT_DEFAULT);
                     frameInicio.revalidate();
                 }

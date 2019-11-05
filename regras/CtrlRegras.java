@@ -26,11 +26,22 @@ public class CtrlRegras implements Observable{
         this.jogador2 = "";
     }
 
-    public CtrlRegras get(){
-	    if(control == null)
+    public Object get(){
+	    /*if(control == null)
 	        control = new CtrlRegras();
-	    return control;
-    }
+	    return control;*/
+		Object data[] = new Object[5];
+		String jogs[] = new String[2];
+		jogs[0] = jogador1;
+		jogs[1] = jogador2;
+
+		data[0] = "regras";
+		data[1] = tabuleiro1;
+		data[2] = tabuleiro2;
+		data[3] = vez;
+		data[4] = jogs;
+		return data;
+	}
 
 	public int[][] getMatriz(int n) {
 		if(n==1) {

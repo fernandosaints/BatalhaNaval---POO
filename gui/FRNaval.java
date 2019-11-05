@@ -15,8 +15,8 @@ public class FRNaval extends JFrame {
 		int sa=screenSize.height;
 		int x=sl/2 - sl/8;
 		int y=sa/2 - sa/8;
-		
-		setBounds(x,y,sl/4,sa/4);
+
+        setBounds(x,y,sl/4,sa/4);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		Box caixa = new Box(BoxLayout.Y_AXIS);
 
@@ -25,6 +25,7 @@ public class FRNaval extends JFrame {
 		caixa.add(Box.createVerticalGlue());
 
 		getContentPane().add(caixa);
+
 		setTitle("Batalha Naval");
 	}
 	

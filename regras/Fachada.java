@@ -23,8 +23,6 @@ public class Fachada {
         return ctrl.vez;
     }
 
-    public int getVerifica(){ return ctrl.getVerifica();}
-
     public void register(Observer o) {
         ctrl.addObserver(o);
     }

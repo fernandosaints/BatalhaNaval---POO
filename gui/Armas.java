@@ -28,6 +28,7 @@ public class Armas extends JPanel {
             }
             b+=alt;
         }
+        setOpaque(false);
     }
 
     public void paintComponent(Graphics g) {
@@ -56,20 +57,20 @@ public class Armas extends JPanel {
         }
     }
 
-    public void viraArma(int x,int y) {
-        System.out.println("X DIR: "+x);
-        System.out.println("Y DIR: "+y);
-
+    public void viraArma() {
+        boolean virada = false;
         int [][] newPeca;
-        newPeca = new int[this.arma[0].length][this.arma.length];
-        for(int i=0; i < this.arma.length; i++) {
-            for(int j=0; j < this.arma[0].length; j++) {
-                newPeca[j][i] = this.arma[i][j];
-                flipped++;
+        newPeca = new int[arma[0].length][arma.length];
+        for(int i=0; i < arma.length; i++) {
+            for(int j=0; j < arma[0].length; j++) {
+                newPeca[j][i] = arma[i][j];
+                virada = true;
             }
         }
 
-        if(flipped%2 == 0) {
+        this.setBounds(this.getX(), this.getY(), this.getHeight(), this.getWidth());
+
+       /* if(flipped%2 == 0) {
             int[][] flippedNewPeca = new int[newPeca.length][newPeca[0].length];
             for(int i = 0; i < newPeca.length ;i++) {
                 flippedNewPeca[i] = newPeca[newPeca.length-1-i];
@@ -85,12 +86,10 @@ public class Armas extends JPanel {
             a = 0;
             for(int j=0;j<arma[0].length;j++) {
                 matriz[i][j]=new Celula(a,b);
-                x+=larg;
+                a+=larg;
             }
             b+=alt;
-        }
-        this.setBounds(this.getX(), this.getY(), this.getHeight(), this.getWidth() );
-        repaint();
+        }*/
     }
 
     public Color getCor() {

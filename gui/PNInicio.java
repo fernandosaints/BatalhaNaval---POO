@@ -45,7 +45,7 @@ public class PNInicio extends JPanel implements ActionListener {
                     frameInicio.getContentPane().removeAll();
                     frameInicio.getContentPane().add(new PNNaval(f));
                     frameInicio.setBounds(x,y,LARG_DEFAULT,ALT_DEFAULT);
-                    //  frameInicio.revalidate();
+                    //frameInicio.revalidate();
                 }
             }
         });

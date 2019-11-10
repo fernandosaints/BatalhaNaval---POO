@@ -30,6 +30,7 @@ public class Fachada {
     public void setValor(int x, int y, int numTab) {
         ctrl.setValor(x, y, numTab);
     }
+
     public void setValor2(int i, int j){
         ctrl.setValor2(i,j);
     }

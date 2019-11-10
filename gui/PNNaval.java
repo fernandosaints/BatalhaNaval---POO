@@ -122,23 +122,24 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 					int yint = (int) (tab2[i][j].y+(espLinha/2));
 					double qt;
 
-					/*g2d.setPaint(Color.red);
-					rt=new Rectangle2D.Double(tab2[i][j].x+(espLinha/2),tab2[i][j].y+(espLinha/2),larg+1,alt+1);
-					g2d.fill(rt);*/
+					g2d.setPaint(Color.red);
+					rt=new Rectangle2D.Double(xint,yint,larg+1,alt+1);
+					g2d.fill(rt);
 
-					for(int k=0;k<15;k++){
+					/*for(int k=0;k<armas.length;k++){
 						if(armas[k].getCor() == Color.gray){
-							setCores();
-							armas[k].setLocation(xint,yint);
-							/*qt = armas[c].getQuantidade();
+							armas[k].setCor(Color.red);
+							armas[k].setLocation(xint-2,yint-2);
+							*//*qt = armas[c].getQuantidade();
 							if(qt == 2.6) {
 								setCores();
 								armas[c].setLocation(xint,yint);
 								//armas = removeArma(armas,i);
 								//armas[c].remove(c);
-							}*/
+							}*//*
 						}
-					}
+					}*/
+
 					/*for(Armas el : armas){
 						if(el.getCor() == Color.gray){
 							el.remove(4);
@@ -163,6 +164,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 			armas[i] = new Armas(hidro,Color.green);
 			armas[i].setBounds(x,y,90,70);
 			armas[i].setQuantidade(2.6);
+			Movimento mv = new Movimento(armas[i]);
 			x+=90;
 		}
 		x = 45;
@@ -171,6 +173,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 			armas[i] = new Armas(submarino,Color.blue);
 			armas[i].setBounds(x,y,30,30);
 			armas[i].setQuantidade(1);
+			Movimento mv = new Movimento(armas[i]);
 			x+=50;
 		}
 		x = 45;
@@ -179,6 +182,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 			armas[i] = new Armas(destroyer,Color.yellow);
 			armas[i].setBounds(x,y,60,30);
 			armas[i].setQuantidade(2);
+			Movimento mv = new Movimento(armas[i]);
 			x+=75;
 		}
 		x=45;
@@ -187,6 +191,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 			armas[i] = new Armas(cruzador, Color.orange);
 			armas[i].setBounds(x, y, 120, 30);
 			armas[i].setQuantidade(4);
+			Movimento mv = new Movimento(armas[i]);
 			x+=125;
 		}
 		x=45;
@@ -194,6 +199,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		armas[14] = new Armas(couracado,Color.magenta);
 		armas[14].setBounds(x,y,150,30);
 		armas[14].setQuantidade(5);
+		Movimento mv = new Movimento(armas[14]);
 
 		return armas;
 	}
@@ -232,7 +238,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		return false;
 	}
 
-	public Armas[] removeArma(Armas[] armas,int index) { //realmente necessario?
+	public Armas[] removeArma(Armas[] armas, int index) { //realmente necessario?
 
 		if (armas == null || index < 0 || index >= armas.length)
 			return armas;
@@ -249,6 +255,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX(), y = e.getY();
+		int mat2[][] = ctrl.getMatriz(2);
 
 		if(e.getButton() == MouseEvent.BUTTON1){
 			System.out.println("X ESQUERDO:"+x);
@@ -272,13 +279,21 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		}*/
 
         if ((x > (xIni + 700) && x < (xIni + 700) + 15*(larg+espLinha)) && (y > 0 && y < 15*(alt+espLinha))) { //Se clicar no tabuleiro 2
-            x-=(xIni+700);
+        	/*x-=(xIni+700);
             ctrl.setValor2((int)(x/(larg+espLinha)),(int)(y/(alt+espLinha)));
-            repaint();
+            repaint();*/
+			for(int i = 0; i < mat2.length; i++) {
+				for(int j = 0; j < mat2[i].length; j++) {
+					if(mat2[i][j] != 0) {
+						ctrl.setValor2((int)(x/(larg+espLinha)),(int)(y/(alt+espLinha)));
+					}
+				}
+			}
+			repaint();
         }
         else{
 			y = e.getY();
-			for(Armas el : armas){ //Melhorar ponto de pegada
+			for(Armas el : armas){ //Melhorar ponto de pegada para hidro
 				if((x > el.getX() && x < 25*el.getQuantidade()+el.getX()) && (y > el.getY() && y < el.getY() + alt) && (el.getCor() != Color.gray)) {
 					System.out.println("PEGUEI NÃO CINZA");
 					if(temCinza())

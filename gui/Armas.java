@@ -10,23 +10,21 @@ public class Armas extends JPanel {
     private int[][] arma;
     private Celula[][] matriz;
     private Color cor;
-    private int flipped = 0;
-
+    private int tipo, virada = 0;
 
     public Armas(int[][] arma, Color cor) {
-        int a,b;
+        double largSum, altSum = 0;
+        int i, j;
         this.arma = arma;
         matriz = new Celula[arma.length][arma[0].length];
         this.cor = cor;
-        int i, j;
-        b = 0;
         for(i=0;i<arma.length;i++) {
-            a = 0;
+            largSum = 0;
             for (j = 0; j < arma[0].length; j++) {
-                matriz[i][j] = new Celula(a, b);
-                a += larg;
+                matriz[i][j] = new Celula(largSum, altSum);
+                largSum += larg;
             }
-            b+=alt;
+            altSum+=alt;
         }
         setOpaque(false);
     }
@@ -37,19 +35,18 @@ public class Armas extends JPanel {
         Rectangle2D rt;
         double x,y;
 
+        g2d.setPaint(cor);
         g2d.setStroke(new BasicStroke(5.0f,
                 BasicStroke.CAP_BUTT,
                 BasicStroke.JOIN_MITER,
                 10.0f));
 
-        g2d.setPaint(cor);
-
 
         for(int i=0;i<arma.length;i++) {
             for(int j=0;j<arma[0].length;j++) {
                 if(arma[i][j]!=0) {
-                    x = matriz[i][j].x+(espLinha/2);
-                    y = matriz[i][j].y+(espLinha/2);
+                    x = matriz[i][j].x + (espLinha/2);
+                    y = matriz[i][j].y + (espLinha/2);
                     rt=new Rectangle2D.Double(x,y,larg+1,alt+1);
                     g2d.fill(rt);
                 }
@@ -58,54 +55,21 @@ public class Armas extends JPanel {
     }
 
     public void viraArma() {
-        /*boolean virada = false;
-        int [][] novaArma;
-        novaArma = new int[arma[0].length][arma.length];
-        for(int i=0; i < arma.length; i++) {
-            for(int j=0; j < arma[0].length; j++) {
-                novaArma[j][i] = arma[i][j];
-                flipped++;
-            }
-        }
-        this.arma = novaArma;
-
-        if(flipped%2 == 0) {
-            int[][] flippedNewPeca = new int[novaArma.length][novaArma[0].length];
-            for(int i = 0; i < novaArma.length ;i++) {
-                flippedNewPeca[i] = novaArma[novaArma.length-1-i];
-            }
-            novaArma = flippedNewPeca;
-        }
-
-        double x, y=0;
-        matriz = new Celula[arma.length][arma[0].length];
-        for(int i=0;i<arma.length;i++) {
-            x = 0;
-            for(int j=0;j<arma[0].length;j++) {
-                matriz[i][j]=new Celula(x,y);
-                x+=larg;
-            }
-            y+=alt;
-        }
-
-        this.setBounds(this.getX(), this.getY(), this.getHeight(), this.getWidth());
-        repaint();
-        */
         int [][] newPeca;
         newPeca = new int[this.arma[0].length][this.arma.length];
         for(int i=0; i < this.arma.length; i++) {
             for(int j=0; j < this.arma[0].length; j++) {
                 newPeca[j][i] = this.arma[i][j];
-                flipped++;
+                virada++;
             }
         }
 
-        if(flipped%2 == 0) {
-            int[][] flippedNewPeca = new int[newPeca.length][newPeca[0].length];
+        if(virada %2 == 0) {
+            int[][] newPecaVirada = new int[newPeca.length][newPeca[0].length];
             for(int i = 0; i < newPeca.length ;i++) {
-                flippedNewPeca[i] = newPeca[newPeca.length-1-i];
+                newPecaVirada[i] = newPeca[newPeca.length-1-i];
             }
-            newPeca = flippedNewPeca;
+            newPeca = newPecaVirada;
         }
 
         this.arma = newPeca;
@@ -138,5 +102,13 @@ public class Armas extends JPanel {
 
     public void setQuantidade(double quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
     }
 }

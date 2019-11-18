@@ -1,6 +1,5 @@
 package gui;
 
-import regras.CtrlRegras;
 import regras.Fachada;
 
 import javax.swing.*;

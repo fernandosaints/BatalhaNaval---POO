@@ -8,7 +8,7 @@ public class CtrlRegras implements Observable{
 	int tabuleiro1[][];
 	int tabuleiro2 [][];
 	int vez=5;
-    private static CtrlRegras control = null; //SINGLETON
+    private static CtrlRegras control = null; //SINGLETON?
 	String jogador1,jogador2;
     List<Observer> lob=new ArrayList<Observer>();
 	
@@ -21,8 +21,6 @@ public class CtrlRegras implements Observable{
                 this.tabuleiro2[i][j] = 0;
             }
         }
-        this.jogador1 = "";
-        this.jogador2 = "";
     }
 
     public Object get(){
@@ -61,14 +59,6 @@ public class CtrlRegras implements Observable{
 				this.tabuleiro2[j][i] = vez;
 				return;
 			}
-		}
-		getVez();
-	}
-
-	public void setValor2(int i, int j){
-		if (this.tabuleiro2[j][i] == 0) {
-			this.tabuleiro2[j][i] = vez;
-			return;
 		}
 		getVez();
 	}

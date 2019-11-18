@@ -31,10 +31,6 @@ public class Fachada {
         ctrl.setValor(x, y, numTab);
     }
 
-    public void setValor2(int i, int j){
-        ctrl.setValor2(i,j);
-    }
-
     public String[] getJogadores(){ return ctrl.getJogadores();}
 
     public void setJogadores(String jog1, String jog2) {

@@ -9,15 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PNInicio extends JPanel implements ActionListener {
-    final int LARG_DEFAULT=1280;
-    final int ALT_DEFAULT=720;
+    private final int LARG_DEFAULT=1280;
+    private final int ALT_DEFAULT=720;
     Toolkit tk=Toolkit.getDefaultToolkit();
     Dimension screenSize=tk.getScreenSize();
-    int sl=screenSize.width;
-    int sa=screenSize.height;
-    int x=sl/2-LARG_DEFAULT/2;
-    int y=sa/2-ALT_DEFAULT/2;
-
+    private int sl=screenSize.width;
+    private int sa=screenSize.height;
+    private int x=sl/2-LARG_DEFAULT/2;
+    private int y=sa/2-ALT_DEFAULT/2;
 
     public PNInicio(Fachada f, FRNaval frameInicio){
         JButton novo_jogo = new JButton("Novo Jogo");
@@ -45,14 +44,12 @@ public class PNInicio extends JPanel implements ActionListener {
                     frameInicio.getContentPane().removeAll();
                     frameInicio.getContentPane().add(new PNNaval(f));
                     frameInicio.setBounds(x,y,LARG_DEFAULT,ALT_DEFAULT);
-                    //frameInicio.revalidate();
+                    frameInicio.revalidate();
                 }
             }
         });
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
+    public void actionPerformed(ActionEvent e) {}
 }

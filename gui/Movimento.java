@@ -18,6 +18,7 @@ public class Movimento implements MouseListener, Observable {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        //Se clicar com o botão direito, vira a arma
         if(e.getButton() == MouseEvent.BUTTON3) {
             System.out.println("X DIREITO:"+e.getX());
             System.out.println("Y DIREITO:"+e.getY());
@@ -26,35 +27,17 @@ public class Movimento implements MouseListener, Observable {
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
+    public void mousePressed(MouseEvent e) {}
     @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
+    public void mouseReleased(MouseEvent e) {}
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
+    public void mouseEntered(MouseEvent e) {}
     @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
+    public void mouseExited(MouseEvent e) {}
     @Override
-    public void addObserver(Observer o) {
-
-    }
-
+    public void addObserver(Observer o) {}
     @Override
-    public void removeObserver(Observer o) {
-
-    }
-
+    public void removeObserver(Observer o) {}
     @Override
     public Object get() {
         return null;

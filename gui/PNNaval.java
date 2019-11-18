@@ -1,7 +1,5 @@
 package gui;
 
-import org.omg.CORBA.CODESET_INCOMPATIBLE;
-import regras.CtrlRegras;
 import regras.Fachada;
 import regras.Observable;
 import regras.Observer;
@@ -11,12 +9,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
-public class PNNaval extends JPanel implements MouseListener, Observer {
-	private int X,Y;
-	double xIni=30.0,yIni=90.0,larg=25.0,alt=25.0,espLinha=5.0, var=0;
-	int xAtual, yAtual, xPeca, yPeca;
+public class PNNaval extends JPanel implements MouseListener, Observer, KeyListener {
+	private double xIni=30.0, yIni=90.0, larg=25.0, alt=25.0, espLinha=5.0;
+	private int xAtual, yAtual, xPeca, yPeca;
 
 	Color corDefault = UIManager.getColor ("Panel.background");
 
@@ -33,6 +29,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 
 	JButton pronto = new JButton("Tabuleiro Pronto!");
 
+	//Constroi os tabuleiros e cria as armas
 	public PNNaval(Fachada f) {
 		double x,y=yIni;
 		ctrl=f;
@@ -57,6 +54,8 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		}
 
 		addMouseListener(this);
+		addKeyListener(this);
+		setFocusable(true);
 
 		for(int i=0; i < 16; i++){
 			lines1[i] = new Line2D.Double(xIni + (i*(larg+espLinha)), yIni , xIni + (i*(larg+espLinha)), yIni+(15*(alt+espLinha)));
@@ -80,6 +79,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		int mat2[][] = ctrl.getMatriz(2);
 		jogadores = ctrl.getJogadores();
 
+		//Cria e adiciona botão de pronto
 		pronto.addActionListener(new ReadyButton());
 		pronto.setBounds(500,620,200,40);
 		pronto.setEnabled(false);
@@ -91,16 +91,18 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 
 		g2d.setPaint(Color.black);
 
+		//Desenha tabuleiro
 		for(int i=0;i<32;i++) {
 			//g2d.draw(lines1[i]);
 			g2d.draw(lines2[i]);
 		}
 
-		//g2d.drawString(jogadores[0], (int)(xIni+(7.5*(larg+espLinha))), 510);
+		//Desenha nome dos jogadores
 		g2d.drawString(jogadores[0]+", selecione uma arma na lista.", 500, 600);
+		//g2d.drawString(jogadores[1]+", selecione uma arma na lista.", 500, 600);
 
+		//Desenha letras e numeros ao redor do tabuleiro
 		String letras = "ABCDEFGHIJKLMNO";
-
 		for(int i=0; i < 15 ; i++) {
 				/*g2d.drawString(String.valueOf(letras.charAt(i)), (int)(xIni-15), (int)(yIni + (i*(alt+espLinha)+alt*0.7)));
 				g2d.drawString(String.valueOf(i),(int)(xIni +(i*(larg+espLinha))+(larg*0.35)),(int)(yIni-7));*/
@@ -113,32 +115,34 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		for(int i=0; i < 15; i++) {
 			for(int j=0; j < 15; j++) {
 				/*if(mat1[i][j]!=0) {
+					int x1 = tab1[i][j].x+(espLinha/2);
+					int y1 = tab1[i][j].y+(espLinha/2);
 					g2d.setPaint(Color.green);
-					rt=new Rectangle2D.Double(tab1[i][j].x+(espLinha/2),tab1[i][j].y+(espLinha/2),larg+1,alt+1);
+					rt=new Rectangle2D.Double(x1,y1,larg+1,alt+1);
 					g2d.fill(rt);
 				}*/
 				if(mat2[i][j]!=0){
-					int xint = (int) (tab2[i][j].x+(espLinha/2));
-					int yint = (int) (tab2[i][j].y+(espLinha/2));
+					int x2 = (int) (tab2[i][j].x+(espLinha/2));
+					int y2 = (int) (tab2[i][j].y+(espLinha/2));
 					double qt;
 
-					g2d.setPaint(Color.red);
-					rt=new Rectangle2D.Double(xint,yint,larg+1,alt+1);
-					g2d.fill(rt);
+					/*g2d.setPaint(Color.red);
+					rt=new Rectangle2D.Double(x2,y2,larg+1,alt+1);
+					g2d.fill(rt);*/
 
-					/*for(int k=0;k<armas.length;k++){
+					for(int k=0;k<armas.length;k++){
 						if(armas[k].getCor() == Color.gray){
 							armas[k].setCor(Color.red);
-							armas[k].setLocation(xint-2,yint-2);
-							*//*qt = armas[c].getQuantidade();
-							if(qt == 2.6) {
+							armas[k].setLocation(x2-2,y2-2);
+							qt = armas[k].getQuantidade();
+							/*if(qt == 2.6) {
 								setCores();
-								armas[c].setLocation(xint,yint);
+								armas[k].setLocation(xint,yint);
 								//armas = removeArma(armas,i);
 								//armas[c].remove(c);
-							}*//*
+							}*/
 						}
-					}*/
+					}
 
 					/*for(Armas el : armas){
 						if(el.getCor() == Color.gray){
@@ -148,9 +152,9 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 				}
 			}
 		}
-
 	}
 
+	//Cria as armas e seta seus atributos especificos
 	public Armas[] criaArmas(){
 
 		int[][] hidro = new int[][]{{0,1,0},{1,0,1}};
@@ -164,7 +168,8 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 			armas[i] = new Armas(hidro,Color.green);
 			armas[i].setBounds(x,y,90,70);
 			armas[i].setQuantidade(2.6);
-			Movimento mv = new Movimento(armas[i]);
+			//armas[i].setTipo();
+			//Movimento mv = new Movimento(armas[i]);
 			x+=90;
 		}
 		x = 45;
@@ -173,7 +178,8 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 			armas[i] = new Armas(submarino,Color.blue);
 			armas[i].setBounds(x,y,30,30);
 			armas[i].setQuantidade(1);
-			Movimento mv = new Movimento(armas[i]);
+			armas[i].setTipo(1);
+			//Movimento mv = new Movimento(armas[i]);
 			x+=50;
 		}
 		x = 45;
@@ -182,7 +188,8 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 			armas[i] = new Armas(destroyer,Color.yellow);
 			armas[i].setBounds(x,y,60,30);
 			armas[i].setQuantidade(2);
-			Movimento mv = new Movimento(armas[i]);
+			armas[i].setTipo(2);
+			//Movimento mv = new Movimento(armas[i]);
 			x+=75;
 		}
 		x=45;
@@ -191,7 +198,8 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 			armas[i] = new Armas(cruzador, Color.orange);
 			armas[i].setBounds(x, y, 120, 30);
 			armas[i].setQuantidade(4);
-			Movimento mv = new Movimento(armas[i]);
+			armas[i].setTipo(4);
+			//Movimento mv = new Movimento(armas[i]);
 			x+=125;
 		}
 		x=45;
@@ -199,11 +207,13 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		armas[14] = new Armas(couracado,Color.magenta);
 		armas[14].setBounds(x,y,150,30);
 		armas[14].setQuantidade(5);
-		Movimento mv = new Movimento(armas[14]);
+		armas[14].setTipo(5);
+		//Movimento mv = new Movimento(armas[14]);
 
 		return armas;
 	}
 
+	//Adiciona armas no painel principal
 	private void setArmas() {
 		int j = 0;
 
@@ -213,6 +223,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		}
 	}
 
+	//Seta cor para cada arma especifica
 	private void setCores(){
 		double qt;
 		for(int i=0;i<armas.length;i++){
@@ -230,6 +241,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		}
 	}
 
+	//Verifica se possui alguma arma cinza
 	private boolean temCinza(){
 		for(Armas el : armas){
 			if(el.getCor() == Color.gray)
@@ -238,7 +250,8 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		return false;
 	}
 
-	public Armas[] removeArma(Armas[] armas, int index) { //realmente necessario?
+	//Remove arma do vetor de armas a partir do indice
+	public Armas[] removeArma(Armas[] armas, int index) { //Realmente necessario?
 
 		if (armas == null || index < 0 || index >= armas.length)
 			return armas;
@@ -255,43 +268,48 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX(), y = e.getY();
-		int mat2[][] = ctrl.getMatriz(2);
+		int mat1[][] = ctrl.getMatriz(1); //Tabuleiro 1
+		int mat2[][] = ctrl.getMatriz(2); //Tabuleiro 2
 
+		//Exibe coordenadas de onde foi clicado
 		if(e.getButton() == MouseEvent.BUTTON1){
 			System.out.println("X ESQUERDO:"+x);
 			System.out.println("Y ESQUERDO:"+y);
 		}
 
+		//Se clicar com o botão direito, vira a arma
 		if(e.getButton() == MouseEvent.BUTTON3) {
-			System.out.println("X DIREITO:"+x);
-			System.out.println("Y DIREITO:"+y);
+			System.out.println("X DIREITO:"+e.getX());
+			System.out.println("Y DIREITO:"+e.getY());
 			arma.viraArma();
-            repaint();
+			repaint();
 			return;
-        }
+		}
 
         y-=yIni;
 
-		/*if ((x > xIni && x < xIni + 15*(larg+espLinha)) && (y > 0 && y < 15*(alt+espLinha))) { //Se clicar no tabuleiro 1
+		//Se clicar no tabuleiro 1
+		/*if ((x > xIni && x < xIni + 15*(larg+espLinha)) && (y > 0 && y < 15*(alt+espLinha))) {
 			x-=xIni;
 			ctrl.setValor((int)(x/(larg+espLinha)),(int)(y/(alt+espLinha)));
 			repaint();
 		}*/
 
-        if ((x > (xIni + 700) && x < (xIni + 700) + 15*(larg+espLinha)) && (y > 0 && y < 15*(alt+espLinha))) { //Se clicar no tabuleiro 2
-        	/*x-=(xIni+700);
-            ctrl.setValor2((int)(x/(larg+espLinha)),(int)(y/(alt+espLinha)));
-            repaint();*/
-			for(int i = 0; i < mat2.length; i++) {
+		//Se clicar no tabuleiro 2
+        if ((x > (xIni + 700) && x < (xIni + 700) + 15*(larg+espLinha)) && (y > 0 && y < 15*(alt+espLinha)) && temCinza()) {
+        	x-=(xIni+700);
+            ctrl.setValor((int)(x/(larg+espLinha)),(int)(y/(alt+espLinha)),2);
+            repaint();
+			/*for(int i = 0; i < mat2.length; i++) {
 				for(int j = 0; j < mat2[i].length; j++) {
 					if(mat2[i][j] != 0) {
 						ctrl.setValor2((int)(x/(larg+espLinha)),(int)(y/(alt+espLinha)));
 					}
 				}
 			}
-			repaint();
+			repaint();*/
         }
-        else{
+        else{ //Seleciona arma, se não for cinza, pinta de cinza
 			y = e.getY();
 			for(Armas el : armas){ //Melhorar ponto de pegada para hidro
 				if((x > el.getX() && x < 25*el.getQuantidade()+el.getX()) && (y > el.getY() && y < el.getY() + alt) && (el.getCor() != Color.gray)) {
@@ -313,11 +331,20 @@ public class PNNaval extends JPanel implements MouseListener, Observer {
 		}
 	}
 
-
 	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
+	public void keyTyped(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {}
+
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+			System.out.println("ESC APERTADO");
+			setCores();
+			repaint();
+		}
+	}
 
 	public void notify(Observable o) {}
 

@@ -16,7 +16,6 @@ public class FRNaval extends JFrame {
 		int y=sa/2 - sa/8;
 
         setBounds(x,y,sl/4,sa/4);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		Box caixa = new Box(BoxLayout.Y_AXIS);
 
 		caixa.add(Box.createVerticalGlue());

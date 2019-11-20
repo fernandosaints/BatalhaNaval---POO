@@ -15,8 +15,8 @@ public class Fachada {
         return f;
     }
 
-    public int[][] getMatriz(int numTab) {
-        return ctrl.getMatriz(numTab);
+    public int[][] getMatriz() {
+        return ctrl.getMatriz();
     }
 
     public int getVez() {
@@ -27,8 +27,8 @@ public class Fachada {
         ctrl.addObserver(o);
     }
 
-    public void setValor(int x, int y, int numTab) {
-        ctrl.setValor(x, y, numTab);
+    public void setValor(int x, int y) {
+        ctrl.setValor(x, y);
     }
 
     public String[] getJogadores(){ return ctrl.getJogadores();}

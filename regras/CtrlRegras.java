@@ -1,24 +1,23 @@
 package regras;
 
+import gui.Armas;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class CtrlRegras implements Observable{
 
-	int tabuleiro1[][];
-	int tabuleiro2 [][];
+	private int tabuleiro[][];
 	int vez=5;
     private static CtrlRegras control = null; //SINGLETON?
 	String jogador1,jogador2;
     List<Observer> lob=new ArrayList<Observer>();
 	
 	public CtrlRegras() {
-        this.tabuleiro1 = new int[15][15];
-        this.tabuleiro2 = new int[15][15];
+        this.tabuleiro = new int[15][15];
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
-                this.tabuleiro1[i][j] = 0;
-                this.tabuleiro2[i][j] = 0;
+                this.tabuleiro[i][j] = 0;
             }
         }
     }
@@ -27,39 +26,29 @@ public class CtrlRegras implements Observable{
 	    /*if(control == null)
 	        control = new CtrlRegras();
 	    return control;*/
-		Object data[] = new Object[5];
+		Object data[] = new Object[4];
 		String jogs[] = new String[2];
 		jogs[0] = jogador1;
 		jogs[1] = jogador2;
 
 		data[0] = "regras";
-		data[1] = tabuleiro1;
-		data[2] = tabuleiro2;
-		data[3] = vez;
-		data[4] = jogs;
+		data[1] = tabuleiro;
+		data[2] = vez;
+		data[3] = jogs;
 		return data;
 	}
 
-	public int[][] getMatriz(int n) {
-		if(n==1) {
-			return tabuleiro1;
-		}
-		return tabuleiro2;
+	public int[][] getMatriz() {
+		return tabuleiro;
 	}
 	
-	public void setValor(int i, int j, int numTab){
-		if(numTab == 1) {
-			if (this.tabuleiro1[j][i] == 0) {
-				this.tabuleiro1[j][i] = vez;
-				return;
-			}
-		}
-		else {
-			if (this.tabuleiro2[j][i] == 0) {
-				this.tabuleiro2[j][i] = vez;
-				return;
-			}
-		}
+	public void setValor(int i, int j){
+		if (this.tabuleiro[j][i] == 0) {
+		    //if(arma.getTipo == 1)
+            this.tabuleiro[j][i] = vez;
+            return;
+        }
+
 		getVez();
 	}
 

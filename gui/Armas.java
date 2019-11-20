@@ -84,7 +84,8 @@ public class Armas extends JPanel {
             }
             y+=alt;
         }
-        this.setBounds(this.getX(), this.getY(), this.getHeight(), this.getWidth() );
+
+        this.setBounds(this.getX(), this.getY(), this.getHeight(), this.getWidth());
         repaint();
     }
 
@@ -94,6 +95,14 @@ public class Armas extends JPanel {
 
     public void setCor(Color cor) {
         this.cor = cor;
+    }
+
+    public int[][] getArma() {
+        return arma;
+    }
+
+    public void setArma(int[][] arma) {
+        this.arma = arma;
     }
 
     public double getQuantidade() {

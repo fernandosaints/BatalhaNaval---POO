@@ -18,6 +18,7 @@ public class Movimento implements MouseListener, Observable {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
         //Se clicar com o botão direito, vira a arma
         if(e.getButton() == MouseEvent.BUTTON3) {
             System.out.println("X DIREITO:"+e.getX());

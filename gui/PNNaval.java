@@ -12,18 +12,18 @@ import java.awt.geom.Rectangle2D;
 
 public class PNNaval extends JPanel implements MouseListener, Observer, KeyListener {
 	private double xIni=30.0, yIni=90.0, larg=25.0, alt=25.0, espLinha=5.0;
-	private int xAtual, yAtual, xPeca, yPeca;
+	int matrizArma[][], indexEl, xAtual, yAtual;
 
 	Color corDefault = UIManager.getColor ("Panel.background");
 
-	Celula tab1[][]=new Celula[15][15];
-	Celula tab2[][]=new Celula[15][15];
+	Celula tab[][]=new Celula[15][15];
 
 	Armas arma;
 	Armas armas[];
 
-	Line2D.Double lines1[]=new Line2D.Double[32];
-	Line2D.Double lines2[]=new Line2D.Double[32];
+	Line2D.Double linha[]=new Line2D.Double[16];
+	Line2D.Double coluna[]=new Line2D.Double[16];
+
 	Fachada ctrl;
 	String[] jogadores;
 
@@ -31,23 +31,13 @@ public class PNNaval extends JPanel implements MouseListener, Observer, KeyListe
 
 	//Constroi os tabuleiros e cria as armas
 	public PNNaval(Fachada f) {
-		double x,y=yIni;
+		double x,y = yIni;
 		ctrl=f;
 
-		/*for(int i=0;i<15;i++) {
-			x=xIni;
-			for(int j=0;j<15;j++) {
-				tab1[i][j]=new Celula(x,y);
-				x+=larg+espLinha;
-			}
-			y+=alt+espLinha;
-		}*/
-
-		y = yIni;
 		for(int i=0;i<15;i++) {
 			x = (xIni+700);
 			for (int j = 0; j < 15; j++) {
-				tab2[i][j] = new Celula(x, y);
+				tab[i][j] = new Celula(x, y);
 				x += larg + espLinha;
 			}
 			y += alt + espLinha;
@@ -57,14 +47,10 @@ public class PNNaval extends JPanel implements MouseListener, Observer, KeyListe
 		addKeyListener(this);
 		setFocusable(true);
 
-		for(int i=0; i < 16; i++){
-			lines1[i] = new Line2D.Double(xIni + (i*(larg+espLinha)), yIni , xIni + (i*(larg+espLinha)), yIni+(15*(alt+espLinha)));
-			lines2[i] = new Line2D.Double(xIni+700 + (i*(larg+espLinha)), yIni , xIni+700 + (i*(larg+espLinha)), yIni+(15*(alt+espLinha)));
-		}
-		for(int i=0; i < 16; i++) {
-			lines1[i + 16] = new Line2D.Double(xIni, yIni + (i * (alt + espLinha)), xIni + (15 * (larg + espLinha)), yIni + (i * (alt + espLinha)));
-			lines2[i + 16] = new Line2D.Double(xIni + 700, yIni + (i * (alt + espLinha)), xIni + 700 + (15 * (larg + espLinha)), yIni + (i * (alt + espLinha)));
-		}
+        for(int i=0; i < 16; i++){
+            linha[i] = new Line2D.Double(xIni+700, yIni+(i*(alt+espLinha)), xIni+700 + (15*(larg+espLinha)), yIni+(i*(alt+espLinha)));
+            coluna[i] = new Line2D.Double(xIni+700 + (i*(larg+espLinha)), yIni , xIni+700 + (i*(larg+espLinha)), yIni+(15*(alt+espLinha)));
+        }
 
 		armas = new Armas[15];
 		armas = criaArmas();
@@ -75,8 +61,7 @@ public class PNNaval extends JPanel implements MouseListener, Observer, KeyListe
 		Graphics2D g2d=(Graphics2D) g;
 		Rectangle2D rt;
 
-		int mat1[][] = ctrl.getMatriz(1);
-		int mat2[][] = ctrl.getMatriz(2);
+		int mat[][] = ctrl.getMatriz();
 		jogadores = ctrl.getJogadores();
 
 		//Cria e adiciona botão de pronto
@@ -92,9 +77,9 @@ public class PNNaval extends JPanel implements MouseListener, Observer, KeyListe
 		g2d.setPaint(Color.black);
 
 		//Desenha tabuleiro
-		for(int i=0;i<32;i++) {
-			//g2d.draw(lines1[i]);
-			g2d.draw(lines2[i]);
+		for(int i=0;i<16;i++) {
+            g2d.draw(linha[i]);
+            g2d.draw(coluna[i]);
 		}
 
 		//Desenha nome dos jogadores
@@ -104,52 +89,23 @@ public class PNNaval extends JPanel implements MouseListener, Observer, KeyListe
 		//Desenha letras e numeros ao redor do tabuleiro
 		String letras = "ABCDEFGHIJKLMNO";
 		for(int i=0; i < 15 ; i++) {
-				/*g2d.drawString(String.valueOf(letras.charAt(i)), (int)(xIni-15), (int)(yIni + (i*(alt+espLinha)+alt*0.7)));
-				g2d.drawString(String.valueOf(i),(int)(xIni +(i*(larg+espLinha))+(larg*0.35)),(int)(yIni-7));*/
 				g2d.drawString(String.valueOf(letras.charAt(i)), (int)(xIni+685), (int)(yIni + (i*(alt+espLinha)+alt*0.7)));
 				g2d.drawString(String.valueOf(i),(int)((xIni + 700) + (i*(larg+espLinha))+(larg*0.35)),(int)(yIni-7));
 		}
 
 		setArmas();
 
-		for(int i=0; i < 15; i++) {
-			for(int j=0; j < 15; j++) {
-				/*if(mat1[i][j]!=0) {
-					int x1 = tab1[i][j].x+(espLinha/2);
-					int y1 = tab1[i][j].y+(espLinha/2);
-					g2d.setPaint(Color.green);
-					rt=new Rectangle2D.Double(x1,y1,larg+1,alt+1);
-					g2d.fill(rt);
-				}*/
-				if(mat2[i][j]!=0){
-					int x2 = (int) (tab2[i][j].x+(espLinha/2));
-					int y2 = (int) (tab2[i][j].y+(espLinha/2));
-					double qt;
-
-					/*g2d.setPaint(Color.red);
-					rt=new Rectangle2D.Double(x2,y2,larg+1,alt+1);
-					g2d.fill(rt);*/
-
-					for(int k=0;k<armas.length;k++){
-						if(armas[k].getCor() == Color.gray){
-							armas[k].setCor(Color.red);
-							armas[k].setLocation(x2-2,y2-2);
-							qt = armas[k].getQuantidade();
-							/*if(qt == 2.6) {
-								setCores();
-								armas[k].setLocation(xint,yint);
-								//armas = removeArma(armas,i);
-								//armas[c].remove(c);
-							}*/
-						}
-					}
-
-					/*for(Armas el : armas){
-						if(el.getCor() == Color.gray){
-							el.remove(4);
-						}
-					}*/
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 15; j++) {
+				if (tab[i][j].arma != null) {
+					g2d.setPaint(new Color(154, 117, 195,255));
+				} else {
+					g2d.setPaint(corDefault);
 				}
+				int x = (int) (tab[i][j].x+(espLinha/2));
+				int y = (int) (tab[i][j].y+(espLinha/2));
+				rt = new Rectangle2D.Double(x,y,larg+1, alt+1);
+				g2d.fill(rt);
 			}
 		}
 	}
@@ -256,20 +212,22 @@ public class PNNaval extends JPanel implements MouseListener, Observer, KeyListe
 		if (armas == null || index < 0 || index >= armas.length)
 			return armas;
 
-		Armas[] outroArray = new Armas[armas.length - 1];
+		Armas[] outroArray = new Armas[armas.length];
 
-		for (int i=0, k=0; i < armas.length; i++) {
+		for (int i=0, k=0; i < armas.length; i++, k++) {
 			if (i == index)
-				continue;
-			outroArray[k++] = armas[i];
+				outroArray[k].setArma(null);
+			else
+				outroArray[k] = armas[i];
 		}
 		return outroArray;
 	}
 
 	public void mouseClicked(MouseEvent e) {
+
 		int x = e.getX(), y = e.getY();
-		int mat1[][] = ctrl.getMatriz(1); //Tabuleiro 1
-		int mat2[][] = ctrl.getMatriz(2); //Tabuleiro 2
+
+		int mat[][] = ctrl.getMatriz(); //Tabuleiro
 
 		//Exibe coordenadas de onde foi clicado
 		if(e.getButton() == MouseEvent.BUTTON1){
@@ -288,42 +246,38 @@ public class PNNaval extends JPanel implements MouseListener, Observer, KeyListe
 
         y-=yIni;
 
-		//Se clicar no tabuleiro 1
-		/*if ((x > xIni && x < xIni + 15*(larg+espLinha)) && (y > 0 && y < 15*(alt+espLinha))) {
-			x-=xIni;
-			ctrl.setValor((int)(x/(larg+espLinha)),(int)(y/(alt+espLinha)));
-			repaint();
-		}*/
-
-		//Se clicar no tabuleiro 2
+		//Se clicar no tabuleiro
         if ((x > (xIni + 700) && x < (xIni + 700) + 15*(larg+espLinha)) && (y > 0 && y < 15*(alt+espLinha)) && temCinza()) {
         	x-=(xIni+700);
-            ctrl.setValor((int)(x/(larg+espLinha)),(int)(y/(alt+espLinha)),2);
-            repaint();
-			/*for(int i = 0; i < mat2.length; i++) {
-				for(int j = 0; j < mat2[i].length; j++) {
-					if(mat2[i][j] != 0) {
-						ctrl.setValor2((int)(x/(larg+espLinha)),(int)(y/(alt+espLinha)));
+            //ctrl.setValor((int)(x/(larg+espLinha)),(int)(y/(alt+espLinha)));
+			xAtual = (int)(x/(larg+espLinha));
+			yAtual = (int)(y/(alt+espLinha));
+			matrizArma = armas[indexEl].getArma();
+			//this.remove(armas[indexEl]); //remove arma do painel?
+			//armas = removeArma(armas,indexEl); //remove arma do vetor
+
+			for (int i = 0; i < matrizArma.length; i++) {
+				for (int j = 0; j < matrizArma[i].length; j++) {
+					if (matrizArma[i][j] == 1) {
+						tab[i+yAtual][j+xAtual].arma = armas[indexEl];
 					}
 				}
 			}
-			repaint();*/
+			repaint();
         }
         else{ //Seleciona arma, se não for cinza, pinta de cinza
 			y = e.getY();
-			for(Armas el : armas){ //Melhorar ponto de pegada para hidro
-				if((x > el.getX() && x < 25*el.getQuantidade()+el.getX()) && (y > el.getY() && y < el.getY() + alt) && (el.getCor() != Color.gray)) {
+
+			for(int i=0;i<armas.length;i++){ //Melhorar ponto de pegada para hidro
+				if((x > armas[i].getX() && x < 25*armas[i].getQuantidade()+armas[i].getX()) && (y > armas[i].getY() && y < armas[i].getY() + alt) && (armas[i].getCor() != Color.gray)) {
 					System.out.println("PEGUEI NÃO CINZA");
 					if(temCinza())
 						setCores();
-					el.setCor(Color.gray);
-					xAtual = x;
-					yAtual = y;
-					xPeca = el.getX();
-					yPeca = el.getY();
+					armas[i].setCor(Color.gray);
+					indexEl = i;
 					repaint();
 				}
-				else if((x > el.getX() && x < 25*el.getQuantidade()+el.getX()) && (y > el.getY() && y < el.getY() + alt) && (el.getCor() == Color.gray)) {
+				else if((x > armas[i].getX() && x < 25*armas[i].getQuantidade()+armas[i].getX()) && (y > armas[i].getY() && y < armas[i].getY() + alt) && (armas[i].getCor() == Color.gray)) {
 					setCores();
 					repaint();
 				}

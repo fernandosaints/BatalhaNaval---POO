@@ -19,10 +19,11 @@ public class PNInicio extends JPanel implements ActionListener {
     private int y=sa/2-ALT_DEFAULT/2;
 
     public PNInicio(Fachada f, FRNaval frameInicio){
-        JButton novo_jogo = new JButton("Novo Jogo");
-        JButton carregar_jogo = new JButton("Carregar Jogo");
-        this.add(novo_jogo);
-        this.add(carregar_jogo);
+        JButton novo_jogo = new JButton("Novo Jogo"); //Cria botão "Novo Jogo"
+        JButton carregar_jogo = new JButton("Carregar Jogo"); //Cria botão "Carregar Jogo"
+        this.add(novo_jogo); //Adiciona botão "Novo Jogo" no painel
+        this.add(carregar_jogo); //Adiciona botão "Carregar Jogo" no painel
+
         novo_jogo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

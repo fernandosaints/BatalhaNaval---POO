@@ -1,7 +1,5 @@
 package regras;
 
-import gui.Armas;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,11 +42,9 @@ public class CtrlRegras implements Observable{
 	
 	public void setValor(int i, int j){
 		if (this.tabuleiro[j][i] == 0) {
-		    //if(arma.getTipo == 1)
             this.tabuleiro[j][i] = vez;
             return;
         }
-
 		getVez();
 	}
 

@@ -6,11 +6,11 @@ import java.awt.geom.Rectangle2D;
 
 public class Armas extends JPanel {
 
-    private double larg=25.0,alt=25.0,espLinha=5.0, quantidade;
+    private double larg=25.0,alt=25.0,espLinha=5.0, quantidade, tipo;
     private int[][] arma;
     private Celula[][] matriz;
     private Color cor;
-    private int tipo, virada = 0;
+    private int virada = 0;
 
     public Armas(int[][] arma, Color cor) {
         double largSum, altSum = 0;
@@ -64,6 +64,7 @@ public class Armas extends JPanel {
             }
         }
 
+
         if(virada %2 == 0) {
             int[][] newPecaVirada = new int[newPeca.length][newPeca[0].length];
             for(int i = 0; i < newPeca.length ;i++) {
@@ -113,11 +114,11 @@ public class Armas extends JPanel {
         this.quantidade = quantidade;
     }
 
-    public int getTipo() {
+    public double getTipo() {
         return tipo;
     }
 
-    public void setTipo(int tipo) {
+    public void setTipo(double tipo) {
         this.tipo = tipo;
     }
 }

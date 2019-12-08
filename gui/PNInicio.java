@@ -1,29 +1,31 @@
 package gui;
 
-import regras.CtrlRegras;
-import regras.Fachada;
 
+import regras.Fachada;
+import gui.Batalha;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+@SuppressWarnings("serial")
 public class PNInicio extends JPanel implements ActionListener {
-    private final int LARG_DEFAULT=1280;
+	private final int LARG_DEFAULT=1280;
     private final int ALT_DEFAULT=720;
-    Toolkit tk=Toolkit.getDefaultToolkit();
-    Dimension screenSize=tk.getScreenSize();
+    private Toolkit tk=Toolkit.getDefaultToolkit();
+    private Dimension screenSize=tk.getScreenSize();
     private int sl=screenSize.width;
     private int sa=screenSize.height;
     private int x=sl/2-LARG_DEFAULT/2;
     private int y=sa/2-ALT_DEFAULT/2;
+    JPanel PNNaval, batalha;
 
-    public PNInicio(Fachada f, FRNaval frameInicio){
-        JButton novo_jogo = new JButton("Novo Jogo"); //Cria botão "Novo Jogo"
-        JButton carregar_jogo = new JButton("Carregar Jogo"); //Cria botão "Carregar Jogo"
-        this.add(novo_jogo); //Adiciona botão "Novo Jogo" no painel
-        this.add(carregar_jogo); //Adiciona botão "Carregar Jogo" no painel
-
+    public PNInicio(Fachada fachada, FRNaval frameInicio){
+        JButton novo_jogo = new JButton("Novo Jogo");
+        JButton carregar_jogo = new JButton("Carregar Jogo");
+        
+        this.add(novo_jogo);
+        this.add(carregar_jogo);
         novo_jogo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -41,16 +43,28 @@ public class PNInicio extends JPanel implements ActionListener {
                 int resultado = JOptionPane.showConfirmDialog(null,painelInicio,"Digite os nomes dos jogadores:",JOptionPane.OK_OPTION);
 
                 if(resultado == JOptionPane.OK_OPTION){
-                    f.setJogadores(jogador1.getText(), jogador2.getText());
+                    fachada.setJogadores(jogador1.getText(), jogador2.getText());
                     frameInicio.getContentPane().removeAll();
-                    frameInicio.getContentPane().add(new PNNaval(f));
+                    PNNaval = new PNNaval(fachada);
+                    frameInicio.getContentPane().add(PNNaval);
                     frameInicio.setBounds(x,y,LARG_DEFAULT,ALT_DEFAULT);
-                    frameInicio.revalidate();
                 }
+
+            }
+        });
+        carregar_jogo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	frameInicio.getContentPane().removeAll();
+                batalha = new Batalha(fachada.carregaTabuleiro());
+                frameInicio.getContentPane().add(batalha);
+                frameInicio.setBounds(x,y,LARG_DEFAULT,ALT_DEFAULT);
             }
         });
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {}
+    public void actionPerformed(ActionEvent e) {
+
+    }
 }

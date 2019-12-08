@@ -1,5 +1,9 @@
 package regras;
 
+
+import gui.Casa;
+
+
 public class Fachada {
     CtrlRegras ctrl;
     static Fachada f=null;
@@ -9,26 +13,22 @@ public class Fachada {
     }
 
     public static Fachada getFachada() {
-        if(f==null)
+        if(f==null) {
             f=new Fachada();
-
+        }
         return f;
     }
 
-    public int[][] getMatriz() {
-        return ctrl.getMatriz();
+    public Casa[][] getTabuleiro() {
+        return ctrl.getTabuleiro();
     }
-
-    public int getVez() {
-        return ctrl.vez;
-    }
+    
+    public Casa[][] getTabuleiro2(){
+		return ctrl.getTabuleiro2();
+	}
 
     public void register(Observer o) {
         ctrl.addObserver(o);
-    }
-
-    public void setValor(int x, int y) {
-        ctrl.setValor(x, y);
     }
 
     public String[] getJogadores(){ return ctrl.getJogadores();}
@@ -36,4 +36,61 @@ public class Fachada {
     public void setJogadores(String jog1, String jog2) {
         ctrl.setJogadores(jog1, jog2);
     }
+    
+    public int getArmasNoTabuleiro() {
+    	return ctrl.getArmasNoTabuleiro();
+    }
+    
+    public void setArmasNoTabuleiro() {
+    	ctrl.setArmasNoTabuleiro();
+    }
+    
+	public void resetaArmasNoTabuleiro() {
+		ctrl.resetaArmasNoTabuleiro();
+	}
+	
+	public int getAtaques() {
+		return ctrl.getAtaques();
+	}
+	
+	public void setAtaques() {
+		ctrl.setAtaques();
+	}
+	
+	public int getVez() {
+		return ctrl.getVez();
+	}
+	
+	public void setVez() {
+		ctrl.setVez();
+	}
+	
+	public void setArmasTab1() {
+		ctrl.setArmasTab1();
+	}
+	
+	public void setArmasTab2() {
+		ctrl.setArmasTab2();
+	}
+	
+	public int getArmasTab1() {
+		return ctrl.getArmasTab1();
+	}
+	
+	public int getArmasTab2() {
+		return ctrl.getArmasTab2();
+	}
+	
+	public void salvaTabuleiros() {
+		ctrl.salvaTabuleiros();
+	}
+	
+	public Fachada carregaTabuleiro() {
+		ctrl = ctrl.carregaTabuleiros();
+		return f;
+	}
+	
+	public void resetaFachada() {
+		ctrl = new CtrlRegras();
+	}
 }
